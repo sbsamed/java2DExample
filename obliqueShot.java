@@ -1,5 +1,5 @@
 
-package balisticcurve;
+package odev_2_2;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,51 +19,38 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 public class egikAtis extends JFrame {
-
-    private double G = 9.8; 
-    private int tekrarhizi = 1; 
-    private static int size = 900, yariCap = 20;
-    private double startX, startY, ballX, ballY;
-    private double xSpeed, ySpeed, lastPointX, lastPointY;
-    private double time, deltaTime = 0.07 ; //in seconds
-    private List<Point2D> topunKonumlari= new ArrayList<>();
-    private Timer timer;
-   
+    
+     List<Point2D> topunKonumlari= new ArrayList<>();
+     double G = 9.8; 
+     int size = 900, yariCap = 20;
+     double xSpeed, ySpeed, lastPointX, lastPointY;
+     double time, delayy = 0.07 ; 
+     int tekrarhizi = 1; 
+     Timer timer;
+     double startX, startY, ballX, ballY;
     JTextField tf1,tf2,tf3;  
     JLabel l1,l2,l3; 
     JButton b1;  
     int aci,hiz,tekrar,adet=0;
-    egikAtis(){
-        
+    public egikAtis(){
        
         JFrame f= new JFrame(); 
-        
-        l1=new JLabel("Açı Değeri ");  
-        l1.setBounds(50,20, 100,30);  
-        tf1=new JTextField();  
-        tf1.setBounds(50,50,150,20);  
-         l2=new JLabel("Hız Değeri ");  
-        l2.setBounds(50,75, 100,30);  
-        tf2=new JTextField();  
-        tf2.setBounds(50,100,150,20);  
-        b1=new JButton("run");  
-        b1.setBounds(50,200,70,70);  
+        l1=new JLabel("Açı Değeri ");  l1.setBounds(50,20, 100,30);  
+        tf1=new JTextField();  tf1.setBounds(50,50,150,20);  
+        l2=new JLabel("Hız Değeri ");  l2.setBounds(50,75, 100,30);  
+        tf2=new JTextField();  tf2.setBounds(50,100,150,20);  
+        l3=new JLabel("Tekrarlama");  l3.setBounds(50,120, 100,30); 
+        tf3=new JTextField();  tf3.setBounds(50,150,150,20);  
+        b1=new JButton("run");  b1.setBounds(50,200,70,70);  
        
-        l3=new JLabel("Tekrarlama");  
-        l3.setBounds(50,120, 100,30);  
-        tf3=new JTextField();  
-        tf3.setBounds(50,150,150,20);  
-        
        f.add(tf1);f.add(tf2);f.add(tf3);f.add(b1); f.add(l1);f.add(l2); f.add(l3);
-        f.setSize(400,400);  
-        f.setLayout(null);  
-        f.setVisible(true);  
+        f.setSize(400,400);  f.setLayout(null);  f.setVisible(true);  
           b1.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                
+               
                 String s1=tf1.getText();  
                 String s2=tf2.getText();  
                 String s3=tf3.getText(); 
@@ -76,6 +63,7 @@ public class egikAtis extends JFrame {
        
     
     }
+   
      public void basla(){
         Surface surface  = new Surface();
         add(surface, BorderLayout.CENTER);
@@ -105,30 +93,23 @@ public class egikAtis extends JFrame {
                     timer.stop(); 
                 }
                 
-            
             }
         });
         timer.start(); 
      }
-       
 
     private void kullaniciInput() {
-     
         xSpeed = hiz * Math.cos(aci * (Math.PI / 180));
         ySpeed = hiz * Math.sin(aci * (Math.PI / 180));
     }
 
- 
-
     class Surface extends JPanel implements ActionListener {
   
-
         public Surface() {
             setPreferredSize(new Dimension(size, size));
           
         }
       
-
         @Override
         public void paint(Graphics g) {
            super.paint(g);
@@ -137,7 +118,7 @@ public class egikAtis extends JFrame {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
             
-            g2d.setColor(Color.RED);
+            g2d.setColor(Color.blue);
            
             g2d.fillOval((int)ballX,(int)ballY,yariCap,yariCap);
 
@@ -156,7 +137,7 @@ public class egikAtis extends JFrame {
             }
             else{
                    
-            g2d.setColor(Color.BLUE);
+            g2d.setColor(Color.black);
             for(int i=0; i < (topunKonumlari.size()-1); i++) {
 
                 Point2D from = topunKonumlari.get(i);
@@ -168,10 +149,9 @@ public class egikAtis extends JFrame {
 
         private void topHareketi() {
 
-            ballX = startX + (xSpeed * time);//yataydaki max menzil
+            ballX = startX + (xSpeed * time);//yataydaki  menzil
             ballY = startY - ((ySpeed *time)-(0.5 *G * Math.pow(time, 2)));//zamana göre yatadaki hareket
-            time += deltaTime;
-            
+            time += delayy; 
         }
 
         @Override
@@ -179,9 +159,7 @@ public class egikAtis extends JFrame {
             throw new UnsupportedOperationException(); 
         }
 
-        
     }
-   
     public static void main(String[] args) {
 
         new egikAtis();
